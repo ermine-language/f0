@@ -31,17 +31,17 @@ object BTSpec extends Properties("BT"){
       case 0 => stringR map (Leaf)
       case 1 => p2R(btR2, btR2)(Bin)
     }
-  } yield bt) erase
+  } yield bt).erase
 
   val btR3 = fixR[BT,DynamicF](self => union2R(
     stringR map (Leaf),
     p2R(self, self)(Bin)
-  ) erase)
+  ).erase)
 
   lazy val btW2: Writer[BT,DynamicF] = Writer {
     implicit s => {
-      case Leaf(l)  => byteW(0); stringW(l) erase
-      case Bin(l,r) => byteW(1); Write.p2(btW2(l), btW2(r)) erase
+      case Leaf(l)  => byteW(0); stringW(l).erase
+      case Bin(l,r) => byteW(1); Write.p2(btW2(l), btW2(r)).erase
     }
   }
 
@@ -51,7 +51,7 @@ object BTSpec extends Properties("BT"){
       (_:BT) match {
         case l@Leaf(_) => leaf(l)
         case b@Bin(_,_) => branch(b)
-      }) erase)
+      }).erase)
 
   def btR = fixFR[BT,BTFn](self =>
     stringR.map(Leaf) |

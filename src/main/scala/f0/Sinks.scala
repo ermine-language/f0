@@ -5,8 +5,8 @@ import java.io.FileOutputStream
 trait Sink {
   def writeBit(b: Boolean): Unit
   def apply(b: Byte): Unit
-  def flush: Unit
-  def close: Unit
+  def flush(): Unit
+  def close(): Unit
   def state: Reg
   def using[A](handler: Sink => A): A = try handler(this) finally this.close
   def finishWith[A,F](t: (Writer[A,F], A)) = this.using(s => t._1.bind(s)(t._2))
@@ -23,7 +23,7 @@ object Sinks {
 
   def toOutputStream(os: java.io.OutputStream): Sink = new Sink {
     var i = 0
-    var buf = new Array[Byte](256)
+    val buf = new Array[Byte](256)
     val reg = Reg(Map())
     var bitOffset = 1
     var byteBuf = 0
@@ -52,7 +52,7 @@ object Sinks {
       buf(i) = b; i += 1
     }
     
-    def flush: Unit = {
+    def flush(): Unit = {
       if (bitOffset != 1) {
         bitOffset = 1
         //println("flushing byte buf on done: " + byteBuf)
@@ -65,7 +65,7 @@ object Sinks {
       }
     }
     
-    def close: Unit = {
+    def close(): Unit = {
       flush
       os.close()
     }

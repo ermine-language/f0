@@ -1,7 +1,5 @@
 package f0
 
-import Formats._
-
 trait SumWriters {
     
   /** 2-way sum writer */

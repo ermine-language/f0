@@ -24,7 +24,7 @@ trait Reader[+A,-F] {
   /** Erases the format type for this Reader. */
   def erase: Reader[A,Any] =
     this.asInstanceOf[Reader[A,Any]]
-  def cmapF[F0](implicit f: F0 => F): Reader[A,F0] =
+  def cmapF[F0]: Reader[A,F0] =
     this.asInstanceOf[Reader[A,F0]]
   def union[B>:A,F2](w: Reader[B,F2]): Reader[B,S2[F,F2]] =
     Readers.union2R(this, w)

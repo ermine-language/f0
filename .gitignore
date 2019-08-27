@@ -10,6 +10,8 @@ scala/project/boot
 *.suo
 tags
 .idea
+.bloop
+.metals
 *.iml
 bin
 obj

@@ -8,7 +8,7 @@ import Formats._
 abstract class Writer[-A,+F] { self =>
   def bind(out: Sink): A => EffectW[F]
   def format[F2>:F](implicit f: F2): F2 = f
-  def mapF[F2](implicit f: F => F2): Writer[A,F2] =
+  def mapF[F2]: Writer[A,F2] =
     this.asInstanceOf[Writer[A,F2]]
   def toByteArray(a: A): Array[Byte] = {
     val os = new java.io.ByteArrayOutputStream
@@ -130,7 +130,7 @@ object Writers extends SumWriters {
       case None => none(())
       case Some(a) => some(a)
     })
-  def repeatW[A,F1](w: Writer[A,F1]): Writer[Traversable[A],RepeatF[F1]] = new Writer[Traversable[A],RepeatF[F1]] {
+  def repeatW[A,F1](w: Writer[A,F1]): Writer[Iterable[A],RepeatF[F1]] = new Writer[Iterable[A],RepeatF[F1]] {
     def bind(o: Sink) = {
       val bindA = w.bind(o)
       (as) => {
@@ -140,11 +140,11 @@ object Writers extends SumWriters {
       }
     }
   }
-  def streamW[A,F1](w: Writer[A,F1]): Writer[TraversableOnce[A],StreamF[F1]] = new Writer[TraversableOnce[A],StreamF[F1]] {
+  def streamW[A,F1](w: Writer[A,F1]): Writer[IterableOnce[A],StreamF[F1]] = new Writer[IterableOnce[A],StreamF[F1]] {
     def bind(o: Sink) = {
       val bindA = w.bind(o)
       (as) => {
-        as.foreach(a => { o(1); bindA(a) })
+        as.iterator.foreach(a => { o(1); bindA(a) })
         o(0)
         effectW[StreamF[F1]]
       }

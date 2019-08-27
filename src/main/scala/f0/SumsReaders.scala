@@ -1,7 +1,5 @@
 package f0
 
-import Formats._
-
 trait SumReaders {
     
   /** 2-way sum reader */
