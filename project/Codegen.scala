@@ -5,7 +5,7 @@ import FileUtils._
  * Generates Scala Sum Readers, Writers and Formats for Sum2 - Sum22.
  */
 object CodegenScala{
-  // this is the main entry point from Build.scala
+  // this is the main entry point from build.sbt
   def apply(baseDir:File) = new CodegenScala(new File(baseDir, "main/scala/f0")).codegen()
 }
 
@@ -13,8 +13,8 @@ object CodegenScala{
  * Generates F# Sum Readers, Writers and Formats for Sum2 - Sum22.
  */
 object CodegenFSharp{
-  // this is the main entry point from Build.scala
-  def apply(baseDir:File) = new CodegenFSharp(new File(baseDir, "../../fsharp/f0/f0")).codegen()
+  // this is the main entry point from build.sbt
+  def apply(baseDir:File) = new CodegenFSharp(new File(baseDir, "../fsharp/f0/f0")).codegen()
 }
 
 class CodegenScala(srcDir: File) {
