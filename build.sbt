@@ -9,7 +9,6 @@ lazy val root = (project in file("."))
     description := "Multi-language serialization protocol.",
     version := "1.1.3",
     scalaVersion := "2.13.0",
-    crossScalaVersions := Seq("2.10.5", "2.11.6", "2.13.0"),
     scalacOptions ++= Seq("-deprecation", "-unchecked"),
     scalacOptions ++= {
       val non29 = Seq("-feature", "-language:implicitConversions", "-language:higherKinds", "-language:existentials")
